@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dane ucznia</title>
+</head>
+<body>
+<h1 th:text="${student.name}">Example title</h1>
+<p th:text="${student.surName}">Some content</p>
+<p th:text="${student.yearBook}">Tag1, Tag2, Tag3, tag4</p>
+<p th:text="${student.classSign}">Tag1, Tag2, Tag3, tag4</p>
+
+
+<table>
+    <thead>
+    <th>Przedmiot</th>
+    <th>dfghdh</th>
+    <th>Angielski</th>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <ul>
+                <li th:each="grade : ${PolGrades}"}
+                    th:text="${grade.grade + ' ' + grade.dateStart + ' ' + grade.teacherName + ' ' + grade.teacherSurname}">
+                </li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="grade : ${MatGrades}"}
+                    th:text="${grade.grade + ' ' + grade.dateStart + ' ' + grade.teacherName + ' ' + grade.teacherSurname}">
+                </li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li th:each="grade : ${AngGrades}"}
+                    th:text="${grade.grade + ' ' + grade.dateStart + ' ' + grade.teacherName + ' ' + grade.teacherSurname}">
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<ul>
+    <li th:each="student: ${student.getStudGradeBook()}"
+        th:text="${n}"></li>
+</ul>
+</body>
+</html>

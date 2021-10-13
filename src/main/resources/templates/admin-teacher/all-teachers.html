@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Creat teacher</title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        table {
+            counter-reset: rowNumber-1;
+        }
+        table tr {
+            counter-increment: rowNumber;
+        }
+        table tr td:first-child::before {
+            content: counter(rowNumber);
+
+        }
+    </style>
+
+</head>
+<body>
+
+<h1> Lista Nauczycieli - Panel Administratora</h1>
+<div><button type="button">
+    <a th:href="'/admin-teacher/create-teacher'">Dodaj Teachera </a>
+</button></div>
+
+<table>
+    <thead>
+    <th>LP</th>
+    <th>Imie</th>
+    <th>Nazwisko</th>
+    <th>Przedmiot</th>
+    <th>Edytuj</th>
+    <th>Usun</th>
+    <th>Dodaj Klase</th>
+    <th colspan="8" >Przypisane klasy</th>
+
+    </thead>
+    <tbody>
+    <tr th:each="teacher : ${teacherList}">
+        <td></td>
+        <td th:text="${teacher.name}"></td>
+        <td th:text="${teacher.surName}"></td>
+        <td th:text="${teacher.teachedSubject}"></td>
+        <td>
+            <form  action="/admin-teacher/edit-teacher-menu" method="post">
+                <input type="checkbox" name="teacherToEditId" th:value="${teacher.id}" />
+                <input type="submit" value="edytuj" />
+            </form>
+        </td>
+        <td>
+            <form  action="/admin-teacher/delete-teacher" method="post">
+                <input type="checkbox" name="teacherToDelId" th:value="${teacher.id}" />
+                <input type="submit" value="usun" />
+            </form>
+        </td>
+        <td>
+
+            <form action="/admin-teacher/add-class-menu" method="post" >
+                <input type="hidden" name="teacherId" th:value="${teacher.id}" />
+                <input type="submit" value="Dodaj" />
+            </form>
+        </td>
+        <td th:each="assignedClass : ${teacher.assignedClasses} " >
+            <input  readonly type="text" size="1" th:value="${assignedClass.yearBook}+${assignedClass.classSign}">
+            <form action="/admin-teacher/delete-class-menu" method="post" >
+                <input type="hidden" name="classId" th:value="${assignedClass.id}" />
+                <input type="hidden" name="teacherId" th:value="${teacher.id}" />
+                <input type="submit" value="DEL" />
+            </form>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+</html>

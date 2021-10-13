@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Klas-Admin-Klasy</title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        table {
+            counter-reset: rowNumber-1;
+        }
+        table tr {
+            counter-increment: rowNumber;
+        }
+        table tr td:first-child::before {
+            content: counter(rowNumber);
+
+        }
+
+        #container{
+            width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: antiquewhite;
+        }
+
+        #title{
+            text-align: center;
+        }
+        #addTeacher{
+            text-align:left;
+        }
+
+        #classesTab {
+            text-align: center;
+        }
+
+        #editSection{
+            text-align: center;
+            float: left;
+            min-width: 300px;
+            background-color:lightgoldenrodyellow;
+        }
+        #tabs{
+            text-align: center;
+            float: left;
+            max-width: 700px;
+            background-color:antiquewhite;
+        }
+
+        #teachersTab{
+            text-align: center;
+        }
+
+        .buttonLayout {
+            text-align: center;
+
+
+        }
+        .button {
+            text-align: center;
+            float: left;
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+
+
+<div id="container">
+
+    <div id="title">
+        <h1> Panel Administratora</h1>
+    </div>
+
+    <div id="tabs">
+        <div id="classesTab">
+        <h3>Lista Dostępncy Klas</h3>
+        <table>
+            <thead>
+            <th>Lp.</th>
+            <th>Rocznik</th>
+            <th>Literka</th>
+            <th>Opis Klasy</th>
+            <th>Dodaj Nauczyciela</th>
+            <th colspan="8">Przypisani nauczyciel </th>
+
+            </thead>
+            <tbody>
+            <tr th:each="class : ${classesInSchool}">
+                <td></td>
+                <td th:text="${class.yearBook}"></td>
+                <td th:text="${class.classSign}"></td>
+                <!--        To do przerobienia na przekierowanie do stronki na ktorej znajduje sie lista nauczycieli przypisanych do klasy
+                            i potencjalnie lista uczniów .
+                            -->
+                <td>
+                    <form action="/admin-class/list-students" method="post">
+                        <input type="hidden" name="yearBook" th:value="${class.yearBook}"/>
+                        <input type="hidden" name="classSign" th:value="${class.classSign}"/>
+                        <input type="submit" value="Opis"/>
+                    </form>
+                </td>
+
+                <td>
+                    <form action="/admin-class/add-class-menu" method="post" >
+                        <input type="hidden" name="classId" th:value="${class.id}" />
+                        <input type="submit" value="Tutaj Opis" />
+                    </form>
+                </td>
+
+                <td th:each="assignedTeacher : ${class.getAssignTeachers()} " >
+                    <input  readonly type="text" size="1" th:value="${assignedTeacher.teachedSubject}">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+<!--        <div id="teachersTab">-->
+<!--        <h3> Lista Dostępnych Nauczycieli</h3>-->
+<!--        <div id="addTeacher"><button type="button">-->
+<!--            <a th:href="'/admin-class/create-teacher'">Dodaj Teachera </a>-->
+<!--        </button></div>-->
+<!--        <table>-->
+<!--            <thead>-->
+<!--            <th>Lp.</th>-->
+<!--            <th>Imie</th>-->
+<!--            <th>Nazwisko</th>-->
+<!--            <th>Przedmiot</th>-->
+<!--            <th>Edytuj</th>-->
+<!--            <th>Usun</th>-->
+<!--            <th>Dodaj Klase</th>-->
+<!--            <th colspan="8" >Przypisane klasy</th>-->
+
+<!--            </thead>-->
+<!--            <tbody>-->
+<!--            <tr th:each="teacher : ${teacherList}">-->
+<!--                <td></td>-->
+<!--                <td th:text="${teacher.name}"></td>-->
+<!--                <td th:text="${teacher.surName}"></td>-->
+<!--                <td th:text="${teacher.teachedSubject}"></td>-->
+<!--                <td>-->
+<!--                    <form  action="/admin-class/edit-teacher" method="post">-->
+<!--                        <input type="checkbox" name="teacherToEditId" th:value="${teacher.id}" />-->
+<!--                        <input type="submit" value="edytuj" />-->
+<!--                    </form>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <form  action="/admin-class/delete-teacher" method="post">-->
+<!--                        <input type="checkbox" name="teacherToDelId" th:value="${teacher.id}" />-->
+<!--                        <input type="submit" value="usun" />-->
+<!--                    </form>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <form action="/admin-teacher/add-class-menu-extra" method="post" >-->
+<!--                        <input type="hidden" name="teacherId" th:value="${teacher.id}" />-->
+<!--                        <select  id="classToAssignId" name="classToAssignId" >-->
+<!--                            <option  th:each="class: ${teacher.classWithoutAsignedTeacherToSubject}" th:value="${class.id}" th:text="${class.yearBook}+${class.classSign}">A</option>-->
+<!--                        </select>-->
+<!--                        <br>-->
+<!--                        <input type="submit" value="Dodaj" />-->
+<!--                    </form>-->
+<!--                </td>-->
+<!--                <td th:each="assignedClass : ${teacher.classDetailList} " >-->
+<!--                    <input  readonly type="text" size="1" th:value="${assignedClass.yearBook}+${assignedClass.classSign}">-->
+<!--                    <form action="/admin-class/delete-class-menu" method="post" >-->
+<!--                        <input type="hidden" name="classId" th:value="${assignedClass.id}" />-->
+<!--                        <input type="hidden" name="teacherId" th:value="${teacher.id}" />-->
+<!--                        <input type="submit" value="DEL" />-->
+<!--                    </form>-->
+<!--                </td>-->
+
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+    </div>
+
+    <div id="editSection">
+        <h4>Lista Uczniów</h4>
+
+        <div class="buttonLayout">
+            <div class="button">
+                <form action="/admin-class/class-grades-for-subject"  method="post" >
+                    <input type="hidden" name="classSign" th:value="${classSign}" />
+                    <input type="hidden" name="yearBook" th:value="${yearBook}" />
+                    <input type="hidden" name="subject" value="POL" />
+                    <input type="submit" value="POL" />
+                </form>
+            </div>
+            <div class="button">
+                <form action="/admin-class/class-grades-for-subject"  method="post" >
+                    <input type="hidden" name="classSign" th:value="${classSign}" />
+                    <input type="hidden" name="yearBook" th:value="${yearBook}" />
+                    <input type="hidden" name="subject" value="MAT" />
+                    <input type="submit" value="MAT" />
+                </form>
+            </div>
+            <div class="button">
+                <form action="/admin-class/class-grades-for-subject"  method="post" >
+                    <input type="hidden" name="classSign" th:value="${classSign}" />
+                    <input type="hidden" name="yearBook" th:value="${yearBook}" />
+                    <input type="hidden" name="subject" value="ANG" />
+                    <input type="submit" value="ANG" />
+                </form>
+            </div>
+            <div class="button">
+                <form action="/admin-class/main-classes-list" method="GET" >
+                    <input type="submit" value="ESC" />
+                </form>
+            </div>
+
+
+        </div>
+
+
+        <table>
+            <thead>
+            <th>Lp.</th>
+            <th>Rocznik</th>
+            <th>Klasa</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Edytuj</th>
+            <th>Usun</th>
+            </thead>
+
+            <tbody>
+            <tr th:each="student : ${studentList}">
+                <td></td>
+                <td th:text="${student.yearBook}"></td>
+                <td th:text="${student.classSign}"></td>
+                <td th:text="${student.name}"></td>
+                <td th:text="${student.surName}"></td>
+                <td>
+                    <form  action="/admin-student/edit-student-menu" method="post">
+                        <input type="hidden" name="studentToEditId" th:value="${student.id}" />
+                        <input type="submit" value="edytuj" />
+                    </form>
+                </td>
+                <td>
+                    <form  action="/admin-student/delete-student" method="post">
+                        <input type="checkbox" name="studentToDelId" th:value="${student.id}" />
+                        <input type="hidden" name="yearBook" th:value="${yearBook}" />
+                        <input type="hidden" name="classSign" th:value="${classSign}" />
+                        <input type="submit" value="usun" />
+                    </form>
+                </td>
+
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+
+
+</body>
+</html>

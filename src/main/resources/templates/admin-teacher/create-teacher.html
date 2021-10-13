@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Creat teacher</title>
+</head>
+<body>
+
+<h1> Wprowadz dane nauczyciela </h1>
+
+<form th:action="@{/admin-teacher/add-teacher}"
+      method="post"
+      th:object="${dtoTeacher}">
+
+    Imie : <input type="text" th:field="*{name}"><br>
+    Nazwisko: <input type="text" th:field="*{surName}"> <br>
+    Prowadzone kursy:<br>
+    <input type="checkbox" th:field="*{teachedSubject}" th:value="POL"> Polski <br>
+    <input type="checkbox" th:field="*{teachedSubject}" th:value="MAT"> Matamatyka<br>
+    <input type="checkbox" th:field="*{teachedSubject}" th:value="ANG"> Angielski<br>
+    Rocznik:
+    <select th:field="*{newYearBook}"  >
+        <option value="I" >I</option>
+        <option value="II">II</option>
+        <option value="III">III</option>
+    </select><br>
+    Literka klasy:
+    <select th:field="*{newClassSign}" >
+        <option value="a">A</option>
+        <option value="b">B</option>
+        <option value="c">C</option>
+    </select><br>
+    Oznaczenie Klasy:
+    <select th:field="*{newClassSign}" >
+        <option th:each="class: ${arrList}" th:value="${class}" th:text="${class}">A</option>
+    </select><br>
+
+    <input type="hidden" th:field="*{classDetailList}">
+    <input type="hidden" th:field="*{id}">
+    <input type="submit" value="Zapisz">
+</form>
+
+
+<button type="button">
+    <a th:href="'/admin-teacher/all-teachers'"> ESC</a>
+</button>
+<!--<button type="button">-->
+<!--    <a th:href="'/teacher/usun?yearBook='+${yearBook}+'&classSign='+${classSign}+'&subject='+${subject}+'&id='+${editedDtoGrade.id}"> DEL</a>-->
+<!--</button>-->
+
+</body>
+</html>>

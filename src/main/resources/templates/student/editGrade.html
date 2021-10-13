@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edycja stopnia ucznia</title>
+</head>
+<body>
+
+<h1>Edycja oceny studenta</h1>
+
+<form th:action="@{/student/edit-grade}" method="post" th:object="${studGrade}"  >
+
+    Imię: <span th:text="${student.name}"></span><br>
+    Nazwisko: <span th:text="${student.surName}"></span><br>
+    Rocznik: <span th:text="${student.yearBook}"></span><br>
+    Klasa: <span th:text="${student.classSign}"></span><br>
+
+    Ocena: <input type="text" th:field="*{grade}"> <br>
+    Data wstawienia: <input type="text" th:field="*{dateStart}"> <br>
+    Imie nauczyciela: <input type="text" th:field="*{teacherName}"> <br>
+    Nazwisko nauczyciela: <input type="text" th:field="*{teacherSurname}"> <br>
+    Komentarz: <input type="text" th:field="*{gradeComment}"> <br>
+
+
+    <input type="hidden" th:field="*{id}">
+    <input type="submit" value="Zapisz">
+
+</form>
+</body>
+</html>

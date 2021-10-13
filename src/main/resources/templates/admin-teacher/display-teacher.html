@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Status Nauczyciela</title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<h1> Status Nauczyciela</h1>
+Imie :<span th:text="${dtoTeacher.name}"></span> <br>
+Nazwisko:<span th:text="${dtoTeacher.surName}"></span><br>
+Prowadzone przedmioty: <span th:text="${dtoTeacher.teachedSubject}"></span> <br>
+
+Przypisane Klasy :
+
+<ul>
+    <li th:each="assigned: ${dtoTeacher.classDetailList}" th:text="${assigned.yearBook}+${assigned.classSign}"></li>
+</ul>
+
+
+
+<form th:action="@{/admin-teacher/add-class}" method="post" th:object="${dtoTeacher}">
+
+    Rocznik:
+    <select th:field="*{newYearBook}"  >
+        <option value="I" >I</option>
+        <option value="II">II</option>
+        <option value="III">III</option>
+    </select><br>
+    Literka klasy:
+    <select th:field="*{newClassSign}" >
+        <option value="a">A</option>
+        <option value="b">B</option>
+        <option value="c">C</option>
+    </select><br>
+    <input type="hidden" th:field="*{teachedSubject}">
+    <input type="hidden" th:field="*{name}">
+    <input type="hidden" th:field="*{surName}">
+
+    <input type="hidden" th:field="*{id}">
+    <input type="submit" value="Dodaj-klase">
+</form>
+
+<button type="button">
+    <a th:href="'/admin-teacher/all-teachers'"> ESC</a>
+</button>
+
+
+</body>
+</html>

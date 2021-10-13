@@ -1,0 +1,36 @@
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Creat student</title>
+</head>
+<body>
+
+<h1>Dodaj Ucznia</h1>
+
+<form th:action="@{/admin-student/add-student}"
+      method="post"
+      th:object="${student}">
+
+    Imie : <input type="text" th:field="*{name}"><br>
+    Nazwisko: <input type="text" th:field="*{surName}"> <br>
+
+    <input type="hidden" th:field="*{yearBook}">
+    <input type="hidden" th:field="*{classSign}">
+
+    <input type="hidden" th:field="*{id}">
+    <input type="submit" value="Zapisz">
+</form>
+
+
+<form action="/admin-student/list-students" method="post">
+    <input type="hidden" name="yearBook" th:value="${student.yearBook}"/>
+    <input type="hidden" name="classSign" th:value="${student.classSign}"/>
+    <input type="submit" value="ESC"/>
+</form>
+
+
+</body>
+
+
+</body>
+</html>>

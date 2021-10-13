@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Uczniow szkoły</title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        table {
+            counter-reset: rowNumber-1;
+        }
+        table tr {
+            counter-increment: rowNumber;
+        }
+        table tr td:first-child::before {
+            content: counter(rowNumber);
+
+        }
+    </style>
+
+
+</head>
+<body>
+
+
+<h1>Lista ocen </h1>
+<div> Przedmiot:<div th:text="${subject}"></div></div>
+Rocznik:<div th:text="${yearBook}"></div>
+Klasa:<div th:text="${classSign}"></div>
+<span th:text="${subject.getDescription()} +${' '} + ${yearBook}"></span>
+
+    <form action="/admin-class/main-classes-list" method="GET" >
+    <input type="submit" value="ESC" />
+</form>
+
+<table >
+    <thead>
+    <th>Lp.</th>
+    <th>Imię</th>
+    <th>Nazwisko</th>
+    <th> Dodaj Ocene</th>
+    <th colspan="8" >Oceny</th>
+
+    </thead>
+    <tbody>
+    <tr th:each="editedstudent : ${studentsGrades}">
+        <td></td>
+        <td th:text="${editedstudent.name}"></td>
+        <td th:text="${editedstudent.surName}"></td>
+        <td>
+            <form th:action="@{/admin-student/add-student-grade}" method="post">
+                <input type="hidden" name="editedStudentId"  th:value="${editedstudent.id}" />
+                <input type="hidden" name="subject"  th:value="${subject}" />
+                <input type="text" size="1" name="newGrade" >
+                <input type="submit" value="Dodaj">
+            </form>
+        </td>
+        <td width="50" th:each="grade : ${editedstudent.studGradeBook} " >
+
+
+            <input readonly type="text" size="1" th:value="${grade.grade}">
+            <!--            Uaktualmienie oceny ucznia-->
+            <form th:action="@{/admin-student/update-student-grade}" method="post">
+                <input type="hidden" name="gradeId"  th:value="${grade.id}" />
+                <input type="hidden" name="editedStudentId"  th:value="${editedstudent.id}" />
+                <input type="text" size="1" name="newGrade" >
+                <input type="submit" value="Edit">
+            </form>
+            <!--                Usuniecie oceny ucznia-->
+            <form th:action="@{/admin-student/delete-student-grade}" method="post">
+                <input type="hidden" name="gradeId"  th:value="${grade.id}" />
+                <input type="hidden" name="editedStudentId"  th:value="${editedstudent.id}" />
+                <input type="submit" value="Del">
+            </form>
+
+
+
+<!--            <input  type="text" size="2" th:value="${grade.grade}"> <a th:href="'/edytuj?id='+${grade.id}"> edytuj </a>  <a th:href="'teacher/usun?id='+${grade.id}"> usun</a>-->
+<!--            <input th:text="${grade.grade}" type="number">[[${grade.grade}]]     </input>-->
+
+        </td>
+    </tr>
+    </tbody>
+
+
+</table>
+
+
+</body>
+
+
+
+
+</html>

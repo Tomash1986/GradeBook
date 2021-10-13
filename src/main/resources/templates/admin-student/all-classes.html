@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Klas-Admin-Student</title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        table {
+            counter-reset: rowNumber-1;
+        }
+        table tr {
+            counter-increment: rowNumber;
+        }
+        table tr td:first-child::before {
+            content: counter(rowNumber);
+
+        }
+    </style>
+
+</head>
+<body>
+
+<h1> Lista Klas - Panel Administratora-Student</h1>
+
+
+<table>
+    <thead>
+    <th>Lp.</th>
+    <th>Rocznik</th>
+    <th>Literka</th>
+    <th>------</th>
+
+
+    </thead>
+    <tbody>
+    <tr th:each="class : ${classesInSchool}">
+        <td></td>
+        <td th:text="${class.yearBook}"></td>
+        <td th:text="${class.classSign}"></td>
+        <td>
+            <form action="/admin-student/list-students" method="post">
+                <input type="hidden" name="yearBook" th:value="${class.yearBook}"/>
+                <input type="hidden" name="classSign" th:value="${class.classSign}"/>
+                <input type="submit" value="Przejdz"/>
+            </form>
+        </td>
+
+
+    </tr>
+
+
+    </tbody>
+</table>
+
+
+</body>
+</html>

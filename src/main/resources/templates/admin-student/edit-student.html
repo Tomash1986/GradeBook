@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Student</title>
+    <style>
+        ul#menu li {
+            display: inline;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        table {
+            counter-reset: rowNumber-1;
+        }
+
+        table tr {
+            counter-increment: rowNumber;
+        }
+
+        table tr td:first-child::before {
+            content: counter(rowNumber);
+
+        }
+    </style>
+
+
+
+</head>
+<body>
+
+
+
+<form th:action="@{/admin-student/update-student}"
+      method="post"
+      th:object="${editedstudent}">
+
+    <h2> Status Ucznia</h2>
+    Imie : <input type="text" th:field="*{name}"><br>
+    Nazwisko: <input type="text" th:field="*{surName}"> <br>
+    Klasa: <span th:text="${editedstudent.yearBook} + ${editedstudent.classSign}"></span> <br><br>
+
+    Nowa Klasa:<br>
+    (Uwaga: Przeniesienie tylko pomiedzy klasami jednego rocznika, przeniesie do rocznikow wyzszych i nizszych bedzie ignorowane ):
+    <br>
+    Rocznik:
+    <select th:field="*{yearBook}"  >
+        <option value="I" >I</option>
+        <option value="II">II</option>
+        <option value="III">III</option>
+    </select><br>
+    Literka klasy:
+    <select th:field="*{classSign}" >
+        <option value="a">A</option>
+        <option value="b">B</option>
+        <option value="c">C</option>
+    </select><br>
+
+    <input type="hidden" th:field="*{id}">
+    <input type="submit" value="Zapisz">
+</form>
+<br>
+
+
+
+
+
+
+
+<h1> Oceny </h1>
+
+<table>
+    <thead>
+    <th>Lp.</th>
+    <th>Przedmiot</th>
+    <th>Dodaj Ocene</th>
+    <th colspan="8" >Oceny</th>
+    </thead>
+
+    <tbody>
+    <tr th:each="gradebook : ${gradeBook}">
+        <td></td>
+        <td th:text="${gradebook.key}">keyvalue</td>
+        <td>
+            <form th:action="@{/admin-student/add-student-grade}" method="post">
+                <input type="hidden" name="editedStudentId"  th:value="${editedstudent.id}" />
+                <input type="hidden" name="subject"  th:value="${gradebook.key}" />
+                <input type="text" size="1" name="newGrade" >
+                <input type="submit" value="Dodaj">
+            </form>
+        </td>
+        <td th:each="grade : ${gradebook.value}">
+            <input readonly type="text" size="1" th:value="${grade.grade}">
+<!--            Uaktualmienie oceny ucznia-->
+            <form th:action="@{/admin-student/update-student-grade}" method="post">
+                <input type="hidden" name="gradeId"  th:value="${grade.id}" />
+                <input type="hidden" name="editedStudentId"  th:value="${editedstudent.id}" />
+                <input type="text" size="1" name="newGrade" >
+                <input type="submit" value="Edit">
+            </form>
+            <!--                Usuniecie oceny ucznia-->
+            <form th:action="@{/admin-student/delete-student-grade}" method="post">
+                <input type="hidden" name="gradeId"  th:value="${grade.id}" />
+                <input type="hidden" name="editedStudentId"  th:value="${editedstudent.id}" />
+                <input type="submit" value="Del">
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<form action="/admin-student/list-students" method="post">
+    <input type="hidden" name="yearBook" th:value="${editedstudent.yearBook}"/>
+    <input type="hidden" name="classSign" th:value="${editedstudent.classSign}"/>
+    <input type="submit" value="ESC"/>
+</form>
+
+
+
+</body>

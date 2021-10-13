@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1> Zapisz sie na dowolny kurs </h1>
+
+<form th:action="@{/teacher/edit}"
+      method="post"
+      th:object="${editedDtoGrade}">
+
+    Ocena: <input type="text" th:field="*{grade}"><br>
+    Komentarz: <input type="text" th:field="*{gradeComment}"> <br>
+
+
+
+    <input type="hidden" th:field="*{teacherName}">
+    <input type="hidden" th:field="*{teacherSurname}">
+    <input type="hidden" th:field="*{dateStart}">
+    <input type="hidden" th:field="*{classSign}">
+    <input type="hidden" th:field="*{yearBook}">
+    <input type="hidden" th:field="*{subject}">
+    <input type="hidden" th:field="*{id}">
+    <input type="submit" value="Zapisz">
+</form>
+
+<button type="button">
+    <a th:href="'/teacher/gradeForSpecClass?yearBook='+${yearBook}+'&classSign='+${classSign}+'&subject='+${subject}"> ESC</a>
+</button>
+
+</body>
+</html>>

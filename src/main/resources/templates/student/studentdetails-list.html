@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Uczniow szkoły</title>
+</head>
+<body>
+<!--<ul>-->
+<!--    <li th:each="student: ${students}" th:text="${name}"></li>-->
+<!--</ul>-->
+<h1>Lista studentów w szkole</h1>
+
+<table>
+    <thead>
+    <th>Rocznik</th>
+    <th>Klasa</th>
+    <th>Imię</th>
+    <th>Nazwisko</th>
+    <th>Oceny</th>
+    <th></th>
+    </thead>
+    <tbody>
+    <tr th:each="student : ${students}">
+        <td th:text="${student.yearBook}"></td>
+        <td th:text="${student.classSign}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.surName}"></td>
+        <td>
+            <ul>
+                <li th:each="grades : ${student.getStudGradeBook()}"
+                    th:text="${grades.key.getDescription()}"  >
+                    <ul>
+                        <li th:text="${grades.getValue().getStudSubjectGrades()}"></li>
+                    </ul>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

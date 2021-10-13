@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Klas-Admin-Klasy</title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        table {
+            counter-reset: rowNumber-1;
+        }
+        table tr {
+            counter-increment: rowNumber;
+        }
+        table tr td:first-child::before {
+            content: counter(rowNumber);
+
+        }
+
+        #container{
+            width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: antiquewhite;
+        }
+
+        #title{
+            text-align: center;
+        }
+        #addTeacher{
+            text-align:left;
+        }
+
+        #classesTab {
+            text-align: center;
+        }
+
+        #editSection{
+            text-align: center;
+            float: left;
+            min-width: 300px;
+            background-color:lightgoldenrodyellow;
+        }
+        #tabs{
+            text-align: center;
+            float: left;
+            max-width: 700px;
+            background-color:antiquewhite;
+        }
+
+        #teachersTab{
+            text-align: center;
+        }
+
+        .buttonLayout {
+            text-align: center;
+
+
+        }
+        .button {
+            text-align: center;
+            float: left;
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+
+
+<div id="container">
+
+    <div id="title">
+        <h1> Panel Administratora</h1>
+    </div>
+
+    <div id="tabs">
+        <div id="classesTab">
+            <h4>Lista Dostępnych Klas</h4>
+            <table>
+                <thead>
+                <th>Lp.</th>
+                <th>Klasa</th>
+
+                <th>Opis Klasy</th>
+<!--                <th>Dodaj Nauczyciela</th>-->
+<!--                <th colspan="8">Przypisani nauczyciel </th>-->
+
+                </thead>
+                <tbody>
+                <tr th:each="class : ${classesInSchool}">
+                    <td></td>
+                    <td th:text="${class.yearBook}+${class.classSign}"></td>
+
+                    <td>
+                        <form action="/admin-class/list-students" method="post">
+                            <input type="hidden" name="yearBook" th:value="${class.yearBook}"/>
+                            <input type="hidden" name="classSign" th:value="${class.classSign}"/>
+                            <input type="submit" value="Opis"/>
+                        </form>
+                    </td>
+
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <div id="editSection">
+        <h4>Lista Uczniów</h4>
+
+        <div class="buttonLayout">
+            <div class="button">
+                <form action="/admin-class/class-grades-for-subject"  method="post" >
+                    <input type="hidden" name="classSign" th:value="${classSign}" />
+                    <input type="hidden" name="yearBook" th:value="${yearBook}" />
+                    <input type="hidden" name="subject" value="POL" />
+                    <input type="submit" value="POL" />
+                </form>
+            </div>
+            <div class="button">
+                <form action="/admin-class/class-grades-for-subject"  method="post" >
+                    <input type="hidden" name="classSign" th:value="${classSign}" />
+                    <input type="hidden" name="yearBook" th:value="${yearBook}" />
+                    <input type="hidden" name="subject" value="MAT" />
+                    <input type="submit" value="MAT" />
+                </form>
+            </div>
+            <div class="button">
+                <form action="/admin-class/class-grades-for-subject"  method="post" >
+                    <input type="hidden" name="classSign" th:value="${classSign}" />
+                    <input type="hidden" name="yearBook" th:value="${yearBook}" />
+                    <input type="hidden" name="subject" value="ANG" />
+                    <input type="submit" value="ANG" />
+                </form>
+            </div>
+            <div class="button">
+                <form action="/admin-class/list-students" method="post">
+                    <input type="hidden" name="yearBook" th:value="${yearBook}"/>
+                    <input type="hidden" name="classSign" th:value="${classSign}"/>
+                    <input type="submit" value="ESC"/>
+                </form>
+            </div>
+
+        </div>
+
+
+
+        <table >
+            <thead>
+            <th>Lp.</th>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th> Dodaj Ocene</th>
+            <th colspan="8" >Oceny</th>
+
+            </thead>
+            <tbody>
+            <tr th:each="editedstudent : ${studentsGrades}">
+                <td></td>
+                <td th:text="${editedstudent.name}"></td>
+                <td th:text="${editedstudent.surName}"></td>
+                <td td width="50">
+                    <form th:action="@{/admin-student/add-student-grade}" method="post">
+                        <input type="hidden" name="editedStudentId"  th:value="${editedstudent.id}" />
+                        <input type="hidden" name="subject"  th:value="${subject}" />
+                        <input type="text" size="1" name="newGrade" >
+                        <input type="submit" value="Dodaj">
+                    </form>
+                </td>
+                <td width="50" th:each="grade : ${editedstudent.studGradeBook} " >
+
+
+
+                    <form th:action="@{/admin-student/update-student-grade}" method="post">
+
+                        <select  id="newGrade" name="newGrade" >
+                            <option th:value="${grade.grade}" th:text="${grade.grade}">1</option>
+                            <option th:each="availableGrades: ${availableGrades}" th:value="${grade.grade}" th:text="${availableGrades}">A</option>
+                        </select>
+
+                        <input type="hidden" name="gradeId"  th:value="${grade.id}" />
+                        <input type="hidden" name="editedStudentId"  th:value="${editedstudent.id}" />
+<!--                        <input type="text" size="1" name="newGrade" >-->
+                        <input type="submit" value="Edit">
+                    </form>
+                    <!--                Usuniecie oceny ucznia-->
+                    <form th:action="@{/admin-student/delete-student-grade}" method="post">
+                        <input type="hidden" name="gradeId"  th:value="${grade.id}" />
+                        <input type="hidden" name="editedStudentId"  th:value="${editedstudent.id}" />
+                        <input type="submit" value="Del">
+                    </form>
+
+
+                </td>
+            </tr>
+            </tbody>
+
+
+        </table>
+
+
+    </div>
+
+
+</div>
+
+
+
+</body>
+</html>

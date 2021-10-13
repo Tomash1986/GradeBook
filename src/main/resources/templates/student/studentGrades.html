@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+
+<!--</script>-->
+
+<script th:inline="javascript">
+    var table = '';
+
+
+    // var dtoGrades = /*[[${dtoGrades}]]*/"Test";
+    var polGrades = /*[[${MatGrades}]]*/"[{}]";
+
+    var peron1={firstName:"Tomek", lastName:"Andrzejczyk", age:24};
+    var peron2={firstName:"Waldi", lastName:"Andrzejczyk", age:45};
+    var peron3={firstName:"Marcin", lastName:"Andrzejczyk", age:64};
+
+    var people =[peron1,peron2,peron3];
+
+
+    var rows = 3;
+    var col = people.length;
+    for (var r = 0; r < rows; r++) {
+        table += "<tr>";
+        for (var c = 1; c <= polGrades.length; c++) {
+            table += '<td>'+ polGrades.length +'</td>';
+        }
+        table+='</tr>'
+    }
+    document.write('<table border=1>'+ table + '</table>');
+</script>
+</body>
+</html>

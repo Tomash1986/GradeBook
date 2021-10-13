@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Uczniow szkoły</title>
+</head>
+<body>
+
+<!--<input type="button" value="Generate a table." onclick="generate_table()">-->
+
+<script th:inline="javascript">
+
+    var matGrades = [${MatGrades}];
+
+
+    function generate_table() {
+        // get the reference for the body
+        var body = document.getElementsByTagName("body")[0];
+
+        // creates a <table> element and a <tbody> element
+        var tbl = document.createElement("table");
+        var tblBody = document.createElement("tbody");
+
+        // creating all cells
+        for (var i = 0; i < 1; i++) {
+            // creates a table row
+            var row = document.createElement("tr");
+            var cell1 = document.createElement("td");
+            cell1.appendChild(document.createTextNode('Matematyka'));
+            row.appendChild(cell1);
+            for (var j = 0; j < matGrades.length; j++) {
+                // Create a <td> element and a text node, make the text
+                // node the contents of the <td>, and put the <td> at
+                // the end of the table row
+                var cell = document.createElement("td");
+                var ul = document.createElement("ul");
+
+                var li1 = document.createElement("li");
+                var li1text = document.createTextNode('Ocena: ' + matGrades[j].grade);
+                li1.appendChild(li1text);
+
+                var li2 = document.createElement("li");
+                var li2text = document.createTextNode('Data: ' + matGrades[j].dateStart);
+                li2.appendChild(li2text);
+
+                var li3 = document.createElement("li");
+                var li3text = document.createTextNode('Nauczyciel: ' + matGrades[j].teacherName + '  ' + matGrades[j].teacherSurname);
+                li3.appendChild(li3text);
+
+                var li4 = document.createElement("li");
+                var li4text = document.createTextNode('komentarz: ' + matGrades[j].gradeComment);
+                li4.appendChild(li4text);
+
+                // var li5 = document.createElement("li");
+                // //http://localhost:8080/student/edit-grade?studentId=1&gradeId=15.
+                // var a = document.createElement("a");
+                // var link = document.createTextNode("student/edit-grade?studentId="+stud.id+"&gradeId="+ matGrades[j].id);
+                // // a.appendChild("");
+                // a.title="Edycja";
+                // // a.href=link;
+                // // a.href="@{/student/edit-grade(studentId=${o.id})}";
+                // // a.href="@{/student/edit-grade(studentId=${o.id})}";
+                //
+                //
+                // // var li5text = document.createTextNode(href="details.html" th:href="@{/order/{orderId}/details(orderId=${o.id})}");
+                // li5.appendChild(a);
+
+                ul.appendChild(li1);
+                ul.appendChild(li2);
+                ul.appendChild(li3);
+                ul.appendChild(li4);
+                // ul.appendChild(li5);
+                cell.appendChild(ul);
+                // var cellText = document.createTextNode(matGrades[j].gradeComment +'   '+ matGrades[j].grade);
+                // cell.appendChild(cellText);
+                row.appendChild(cell);
+            }
+
+            // add the row to the end of the table body
+            tblBody.appendChild(row);
+        }
+
+        // put the <tbody> in the <table>
+        tbl.appendChild(tblBody);
+        // appends <table> into <body>
+        body.appendChild(tbl);
+        // sets the border attribute of tbl to 2;
+        tbl.setAttribute("border", "1");
+    }
+
+</script>
+
+
+<!--<script th:inline="javascript">-->
+<!--    var table = '';-->
+
+
+<!--    // var dtoGrades = /*[[${dtoGrades}]]*/"Test";-->
+<!--    var polGrades = /*[[${MatGrades}]]*/"[{}]";-->
+
+<!--    var peron1 = {firstName: "Tomek", lastName: "Andrzejczyk", age: 24};-->
+<!--    var peron2 = {firstName: "Waldi", lastName: "Andrzejczyk", age: 45};-->
+<!--    var peron3 = {firstName: "Marcin", lastName: "Andrzejczyk", age: 64};-->
+
+<!--    var people = [peron1, peron2, peron3];-->
+
+
+<!--    var rows = 3;-->
+<!--    var col = people.length;-->
+<!--    for (var r = 0; r < rows; r++) {-->
+<!--        table += "<tr>";-->
+<!--        for (var c = 1; c <= polGrades.length; c++) {-->
+<!--            table += '<td>' + polGrades.length + '</td>';-->
+<!--        }-->
+<!--        table += '</tr>'-->
+<!--    }-->
+
+<!--    document.write('<table border=1>' + table + '</table>');-->
+<!-- </script>-->
+</body>
+</html>

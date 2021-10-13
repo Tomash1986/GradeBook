@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Uczniow szkoły</title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+
+
+</head>
+<body>
+<!--<ul>-->
+<!--    <li th:each="student: ${students}" th:text="${name}"></li>-->
+<!--</ul>-->
+<h1>Lista studentów w szkole</h1>
+
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+    var yearBook = /*[[${yearBook}]]*/ "I";
+    var classSign = /*[[${classSign}]]*/ "classSign";
+    var subject = /*[[${subject}]]*/ "subject";
+    /*]]>*/
+
+
+    // var grade = document.getElementById("txtName").value;
+
+    // var textToPass= '/teacher/edit?yearBook='+ yearBook +'&classSign='+classSign+'&subject='+subject+'&id='+id.toString()+'&grade=';
+
+    function funtopass(id) {
+
+        return '/teacher/edit?yearBook='+ yearBook +'&classSign='+classSign+'&subject='+subject+'&id='+id+'&grade=';
+    }
+
+    function myFunction() {
+        return document.getElementById("demo").innerText=textToPass;
+    }
+</script>
+
+
+<table >
+    <thead>
+    <th>Rocznik</th>
+    <th>Klasa</th>
+    <th>Imię</th>
+    <th>Nazwisko</th>
+    <th colspan="8" >Oceny</th>
+
+    </thead>
+    <tbody>
+    <tr th:each="student : ${studentsGrades}">
+        <td th:text="${student.yearBook}"></td>
+        <td th:text="${student.classSign}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.surName}"></td>
+        <td th:each="grade : ${student.studGradeBook} " >
+
+
+            <!--            <ul id="menu" th:each="grade : ${student.studGradeBook}">-->
+            <!--                <li th:text="${grade.grade}"></li>-->
+            <!--            </ul>-->
+            <!--            http://localhost:8080/teacher/edit-grades?yearBook=II&classSign=a&subject=PO-->
+            <!--            <input  type="text" size="2" th:value="${grade.grade}">-->
+            <!--            <input  type="text" size="2" th:text="${grade.grade}"id="gradebutt">-->
+            <!--            <form th:action="@{/teacher/edit}"-->
+            <!--                  method="post"-->
+            <!--                  >-->
+            <!--                <br>-->
+            <!--                <input type="text" th:field="*{gradeComment}">-->
+            <!--                <input type="text" th:field="*{dateStart}">-->
+            <!--                <input type="text" th:field="*{teacherName}">-->
+            <!--                <input type="text" th:field="*{teacherSurname}">-->
+            <!--                <input type="hidden" th:field="*{id}">-->
+            <!--                <input type="submit" value="Zapisz">-->
+            <!--            </form>-->
+            <input type="hidden" id="gradeId">
+            <div type="hidden" id="expToPass"></div>
+
+
+            <script th:inline="javascript">
+                var id;
+                id=/*[[${grade.id}]]*/ "id";
+                var grade ;
+
+                document.getElementById("gradeId").innerText= id;
+
+                var textToPass;
+                textToPass = '/teacher/edit?yearBook='+ yearBook +'&classSign='+classSign+'&subject='+subject+'&id='+id+'&grade=';
+                document.getElementById("expToPass").innerText= textToPass
+
+                // function sampleGetByJquery(v) {
+                //     var x=5;
+                //     x.valueOf;
+                //
+                //     var url = /*[+ "'/teacher/edit?yearBook='+[[${yearBook}]]+'&classSign='+[[${classSign}]]+'&subject='+[[${subject}]]+'&id='+[[${grade.id}]]+
+                //                 '&grade='"+v.+]*/ "url";
+                //
+                // }
+            </script>
+
+            <a  href="" onclick="this.href=document.getElementById(expToPass).value+document.getElementById('txtGrade').value">Edytuj</a>
+            <input  type="text" id="ttt" size="2" th:value="${grade.grade}">
+            <a href="" onclick="this.href=textToPass+document.getElementById('txtGrade').value">Edytuj</a>
+            <input type="text" id="txtGrade" >
+
+
+
+            <a href = "javascript:;"  onclick="this.href='/teacher/edit?yearBook='+/*[[${yearBook}]]*/+'&classSign='+/*[[${classSign}]]*/+'&subject='+/*[[${subject}]]*/+'&id='+/*[[${grade.id}]]*/+ '&grade='+document.getElementById('txt_reg').value" >ENTER</a>
+
+            <!--            <a href = "javascript:;"-->
+            <!--               onclick="this.href='www.onet.pl'" >ENTER</a>-->
+
+            <!--            <form method="get" th:action="'/teacher/edit?yearBook='+${yearBook}+'&classSign='+${classSign}+'&subject='+${subject}+'&id='+${grade.id}+'&grade='+*{grade}">-->
+            <!--                <input  type="text" id="grade" size="2" th:field="*{grade}">-->
+            <!--                <button type="submit">edytuj</button>-->
+            <!--            </form>-->
+
+            <!--            <a th:href="'/teacher/edit?yearBook='+${yearBook}+'&classSign='+${classSign}+'&subject='+${subject}+'&id='+${grade.id}+'&grade='+*{grade}"> edytuj</a>-->
+
+            <a th:href="'/teacher/usun?yearBook='+${yearBook}+'&classSign='+${classSign}+'&subject='+${subject}+'&id='+${grade.id}"> usun</a>
+
+            <!--            <input  type="text" size="2" th:value="${grade.grade}"> <a th:href="'/edytuj?id='+${grade.id}"> edytuj </a>  <a th:href="'teacher/usun?id='+${grade.id}"> usun</a>-->
+            <!--            <input th:text="${grade.grade}" type="number">[[${grade.grade}]]     </input>-->
+
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+</body>
+
+
+
+
+</html>

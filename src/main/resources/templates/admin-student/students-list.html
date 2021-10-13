@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista Uczniow </title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        table {
+            counter-reset: rowNumber-1;
+        }
+        table tr {
+            counter-increment: rowNumber;
+        }
+        table tr td:first-child::before {
+            content: counter(rowNumber);
+
+        }
+    </style>
+
+
+</head>
+<body>
+
+<h1>Lista ocen </h1>
+
+<form  action="/admin-student/create-student" method="post">
+    <input type="hidden" name="yearBook" th:value="${yearBook}" />
+    <input type="hidden" name="classSign" th:value="${classSign}" />
+    <input type="submit" value="Dodaj Ucznia" />
+</form>
+
+<table>
+    <thead>
+    <th>Lp.</th>
+    <th>Rocznik</th>
+    <th>Klasa</th>
+    <th>Imię</th>
+    <th>Nazwisko</th>
+    <th>Edytuj</th>
+    <th>Usun</th>
+    </thead>
+
+    <tbody>
+    <tr th:each="student : ${studentList}">
+        <td></td>
+        <td th:text="${student.yearBook}"></td>
+        <td th:text="${student.classSign}"></td>
+        <td th:text="${student.name}"></td>
+        <td th:text="${student.surName}"></td>
+        <td>
+            <form  action="/admin-student/edit-student-menu" method="post">
+                <input type="hidden" name="studentToEditId" th:value="${student.id}" />
+                <input type="submit" value="edytuj" />
+            </form>
+        </td>
+        <td>
+            <form  action="/admin-student/delete-student" method="post">
+                <input type="checkbox" name="studentToDelId" th:value="${student.id}" />
+                <input type="hidden" name="yearBook" th:value="${yearBook}" />
+                <input type="hidden" name="classSign" th:value="${classSign}" />
+                <input type="submit" value="usun" />
+            </form>
+        </td>
+
+    </tr>
+
+
+    </tbody>
+</table>
+
+<button type="button">
+    <a th:href="'/admin-student/all-classes'"> ESC</a>
+</button>
+</body>
+
+</html>

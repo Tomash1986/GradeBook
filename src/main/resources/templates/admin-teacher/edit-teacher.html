@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit teacher</title>
+</head>
+<body>
+
+<form th:action="@{/admin-teacher/edit-teacher-update-name-surname}"
+      method="post"
+      th:object="${teacherToEdit}">
+
+    Imie : <input type="text" th:field="*{name}"><br>
+    Nazwisko: <input type="text" th:field="*{surName}"> <br>
+    Prowadzone kursy:<br>
+    <input readonly type="radio" th:field="*{teachedSubject}" th:value="POL"> Polski <br>
+    <input readonly type="radio" th:field="*{teachedSubject}" th:value="MAT"> Matamatyka<br>
+    <input readonly type="radio" th:field="*{teachedSubject}" th:value="ANG"> Angielski<br>
+    <input type="hidden" th:field="*{id}">
+    <input type="submit" value="Zmien Dane">
+</form>
+Przypisane Klasy :
+<form th:action="@{/admin-teacher/delete-class}"
+      method="post"
+      th:object="${teacherToEdit}">
+    <ul>
+        <li th:each="assigned: ${teacherToEdit.classDetailList}">
+            <span th:text="${assigned.yearBook}+${assigned.classSign}"></span>
+            <input type="radio" name="classId"  th:value="${assigned.id}" />
+        </li>
+    </ul>
+    <input type="hidden" name="teacherId" th:value="*{id}">
+    <input type="submit" value="Usun">
+</form>
+<br>
+Przypisz nowa klase do nauczyciela:
+<form th:action="@{/admin-teacher/edit-teacher-update-class}"
+      method="post"
+      th:object="${teacherToEdit}">
+
+    Rocznik:
+    <select th:field="*{newYearBook}">
+        <option value="I">I</option>
+        <option value="II">II</option>
+        <option value="III">III</option>
+    </select><br>
+    Literka klasy:
+    <select th:field="*{newClassSign}">
+        <option value="a">A</option>
+        <option value="b">B</option>
+        <option value="c">C</option>
+    </select><br>
+
+    <input type="hidden" th:field="*{teachedSubject}">
+    <input type="hidden" th:field="*{id}">
+    <input type="submit" value="Dodaj">
+</form>
+<br>
+<button type="button">
+    <a th:href="'/admin-teacher/all-teachers'"> ESC</a>
+</button>
+
+
+
+</body>
+</html>

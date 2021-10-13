@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Status Nauczyciela</title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+<h1> Status Nauczyciela</h1>
+Imie :<span th:text="${editedTeacher.name}"></span> <br>
+Nazwisko:<span th:text="${editedTeacher.surName}"></span><br>
+Prowadzone przedmioty: <span th:text="${editedTeacher.teachedSubject}"></span> <br>
+
+Przypisane Klasy :
+<!--Wywietlanie kursow-->
+<ul>
+    <li th:each="assigned: ${editedTeacher.assignedClasses}" th:text="${assigned.yearBook}+${assigned.classSign}"></li>
+</ul>
+
+
+<button type="button">
+    <a th:href="'/admin-teacher/all-teachers'"> ESC</a>
+</button>
+
+
+</body>
+</html>

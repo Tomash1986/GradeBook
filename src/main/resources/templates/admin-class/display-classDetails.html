@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Klasa Szczegóły</title>
+    <style>
+        ul#menu li {
+            display:inline;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        table {
+            counter-reset: rowNumber-1;
+        }
+        table tr {
+            counter-increment: rowNumber;
+        }
+        table tr td:first-child::before {
+            content: counter(rowNumber);
+
+        }
+    </style>
+
+</head>
+<body>
+
+<h1> Lista Nauczycieli Pzypisanych</h1>
+<div><button type="button">
+    <a th:href="'/admin-teacher/create-teacher'">Dodaj Teachera </a>
+</button></div>
+
+
+
+
+<table>
+    <thead>
+    <th>LP</th>
+    <th>Przedmiot</th>
+    <th>Imie</th>
+    <th>Nazwisko </th>
+
+
+    </thead>
+    <tbody>
+    <tr th:each="teacher : ${assignTeachers}">
+        <td></td>
+        <td th:text="${teacher.teachedSubject}"></td>
+        <td th:text="${teacher.name}"></td>
+        <td th:text="${teacher.surName}"></td>
+    </tr>
+
+
+    </tbody>
+</table>
+
+
+</body>
+</html>
